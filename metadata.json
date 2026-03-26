@@ -1,0 +1,5 @@
+{
+  "name": "Script-to-Storyboard Generator",
+  "description": "Upload a script and automatically generate a sequence of storyboard images using Gemini AI.",
+  "requestFramePermissions": []
+}
