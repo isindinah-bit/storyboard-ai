@@ -33,7 +33,6 @@ export default function App() {
   const [script, setScript] = useState("");
   const [scenes, setScenes] = useState<Scene[]>([]);
   const [isParsing, setIsParsing] = useState(false);
-  const [imageSize, setImageSize] = useState<ImageSize>("1K");
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [currentChatInput, setCurrentChatInput] = useState("");
@@ -91,7 +90,7 @@ export default function App() {
     if (!scene) return;
 
     try {
-      const imageUrl = await generateSceneImage(scene.imagePrompt, imageSize);
+      const imageUrl = await generateSceneImage(scene.imagePrompt);
       setScenes(prev => prev.map(s => s.id === sceneId ? { ...s, imageUrl, status: "completed" } : s));
     } catch (error) {
       console.error("Error generating image:", error);
@@ -166,24 +165,6 @@ export default function App() {
             </button>
 
             <div className="flex flex-col gap-4 mt-auto">
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold text-white/40 uppercase tracking-wider">Image Quality</label>
-                <div className="flex gap-2 p-1 bg-white/5 rounded-xl border border-white/10">
-                  {(["1K", "2K", "4K"] as ImageSize[]).map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => setImageSize(size)}
-                      className={cn(
-                        "flex-1 py-2 text-xs font-bold rounded-lg transition-all",
-                        imageSize === size ? "bg-white/10 text-white" : "text-white/40 hover:text-white/60"
-                      )}
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
               {!hasApiKey && (
                 <button
                   onClick={handleOpenSelectKey}

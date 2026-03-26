@@ -13,7 +13,7 @@ const getImageAI = () => {
 export async function parseScriptToScenes(script: string): Promise<Scene[]> {
   const ai = getAI();
   const response = await ai.models.generateContent({
-    model: "gemini-3.1-pro-preview",
+    model: "gemini-2.5-flash-preview",
     contents: `Analyze the following script and break it down into a sequence of key visual scenes for a storyboard. 
     For each scene, provide a title, a brief description of the action, and a detailed image prompt for an AI image generator.
     
@@ -44,17 +44,16 @@ export async function parseScriptToScenes(script: string): Promise<Scene[]> {
   }));
 }
 
-export async function generateSceneImage(prompt: string, size: ImageSize): Promise<string> {
+export async function generateSceneImage(prompt: string): Promise<string> {
   const ai = getImageAI();
   const response = await ai.models.generateContent({
-    model: "gemini-3-pro-image-preview",
+    model: "gemini-2.5-flash-image",
     contents: {
       parts: [{ text: prompt }],
     },
     config: {
       imageConfig: {
         aspectRatio: "16:9",
-        imageSize: size,
       },
     },
   });
@@ -70,7 +69,7 @@ export async function generateSceneImage(prompt: string, size: ImageSize): Promi
 export async function chatWithGemini(messages: { role: "user" | "model"; content: string }[]) {
   const ai = getAI();
   const chat = ai.chats.create({
-    model: "gemini-3.1-flash-lite-preview",
+    model: "gemini-2.5-flash-preview",
     config: {
       systemInstruction: "You are a creative storyboard assistant. Help the user refine their script, suggest visual ideas, and improve image prompts.",
     },
